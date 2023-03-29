@@ -8,7 +8,7 @@ const walletSchema = Joi.object({
 
 // Transaction schema for validation
 const transactionSchema = Joi.object({
-  amount: Joi.number().integer().positive().strict().required(),
+  amount: Joi.number().integer().strict().required(),
   description: Joi.string().default(''),
 });
 

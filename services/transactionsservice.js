@@ -25,22 +25,20 @@ const loadTransactionsOfWalletId = (walletId) => {
   }
 };
 
-const addTransactions = (walletId, amount, description) => {
+const addTransactions = (walletId, amount, description, finalAmount) => {
   const loadTransaction = loadTransactionsOfWalletId(walletId);
-  const balanceOfWallet = walletService.getWallet(walletId);
-
   const itemToSave = {
     id: uuid.v4(),
     walletId,
     amount,
     description,
-    balance: balanceOfWallet.balance - amount,
+    balance: finalAmount,
     createdDate: new Date(),
   };
 
   loadTransaction.push(itemToSave);
   saveTransaction(walletId, loadTransaction);
-  walletService.updateWalletBalance(walletId, balanceOfWallet.balance - amount);
+  walletService.updateWalletBalance(walletId, finalAmount);
   return itemToSave;
 };
 

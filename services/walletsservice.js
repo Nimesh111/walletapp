@@ -26,6 +26,11 @@ const getWallet = (walletId) => {
   }
 };
 
+const getWalletBalance = (walletId) => {
+  const wallet = getWallet(walletId);
+  return wallet.balance;
+};
+
 const updateWalletBalance = (walletId, newBalance) => {
   const loadWallet = loadWallets();
 
@@ -86,4 +91,5 @@ module.exports = {
   addWallet,
   saveWallets,
   updateWalletBalance,
+  getWalletBalance,
 };

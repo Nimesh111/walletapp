@@ -47,11 +47,31 @@ router.post('/:walletId/transactions', (req, res) => {
   const { walletId } = req.params,
     { amount, description } = req.body;
 
+  const walletBalance = walletService.getWalletBalance(walletId);
+  let finalAmount;
+
+  if (amount < 0) {
+    if (walletBalance < Math.abs(amount)) {
+      return res
+        .status(400)
+        .json({ message: 'Wallet doet not have enough balance' });
+    } else {
+      finalAmount = walletBalance - Math.abs(amount);
+    }
+  } else {
+    finalAmount = walletBalance + amount;
+  }
+
+  console.log('Wallet Balnce >>', walletBalance);
+  console.log('Amount >>', amount);
+  console.log('Final Amount', finalAmount);
+
   try {
     const transactionCreated = transactionService.addTransactions(
       walletId,
       amount,
-      description
+      description,
+      finalAmount
     );
     res.json(transactionCreated);
   } catch (error) {
